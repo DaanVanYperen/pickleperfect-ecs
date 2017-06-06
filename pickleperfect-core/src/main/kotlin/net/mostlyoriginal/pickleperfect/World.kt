@@ -14,23 +14,27 @@ import kotlin.reflect.KClass
  */
 class World(config: WorldConfiguration) {
 
-    private val entityProducer = config.entityProducer
     val systems = Bag<SystemHarness>()
+
+    /** Services */
 
     val updateService = StateUpdateService()
     val componentService = ComponentService(componentMutationListener = updateService)
     val compositionStore = CompositionStore()
     val subscriptionStore = SubscriptionStore()
+
+    private val entityProducer = config.entityProducer
     val entityStore = EntityStore({ id -> entityProducer(this, id) })
 
-    val subscriptionProducer = { p: BitPredicate -> subscriptionStore.add(Subscription(p), compositionStore) }
-    val componentBitResolver = { p: KClass<out Component> -> componentService.bitIndexOf(p) }
+    private val subscriptionProducer = { p: BitPredicate -> subscriptionStore.add(Subscription(p), compositionStore) }
+    private val componentBitResolver = { p: KClass<out Component> -> componentService.bitIndexOf(p) }
 
     val patternStore = PatternStore(componentBitResolver, subscriptionProducer)
 
-    val processingStrategyWorldFacade = WorldFacade(this)
-    val processingStrategy: ProcessingStrategy = config.processingStrategy
+    /** Strategies */
 
+    private val processingStrategyWorldFacade = WorldFacade(this)
+    private val processingStrategy: ProcessingStrategy = config.processingStrategy
 
     init {
         componentService.register(config.componentTypes)
