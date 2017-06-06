@@ -4,6 +4,7 @@ import net.mostlyoriginal.pickleperfect.Component
 import net.mostlyoriginal.pickleperfect.Entity
 import net.mostlyoriginal.pickleperfect.System
 import net.mostlyoriginal.pickleperfect.World
+import net.mostlyoriginal.pickleperfect.common.Bag
 import net.mostlyoriginal.pickleperfect.common.EntityPattern
 import net.mostlyoriginal.pickleperfect.service.ComponentStore
 import kotlin.reflect.KClass
@@ -15,9 +16,7 @@ import kotlin.reflect.KClass
  *
  * @author Daan van Yperen
  */
-class WorldFacade(
-        val world: World,
-        val system: System) {
+class WorldFacade(val world: World) {
 
     /** Iterate over all entities in pattern. */
     inline fun forEach(pattern: EntityPattern, function: (Entity) -> Unit) {
@@ -33,7 +32,11 @@ class WorldFacade(
      * Safe to call from within system, but make sure you do not call this from while iterating over a subscription.
      */
     fun flush() {
-        world.flush()
+        world.updateService.update(world.compositionStore, world.subscriptionStore)
+    }
+
+    fun systems(): Bag<SystemHarness> {
+        return world.systems
     }
 
     fun create(): Entity {

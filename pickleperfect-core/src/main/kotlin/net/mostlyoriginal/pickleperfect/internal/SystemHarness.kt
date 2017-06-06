@@ -10,7 +10,7 @@ import net.mostlyoriginal.pickleperfect.predicate.BitPredicate
  * @author Daan van Yperen
  */
 class SystemHarness(world: World, val system: System) {
-    val facade = WorldFacade(world, system)
+    val facade = WorldFacade(world)
 
     /** Initialize contained system. */
     fun initialize() {

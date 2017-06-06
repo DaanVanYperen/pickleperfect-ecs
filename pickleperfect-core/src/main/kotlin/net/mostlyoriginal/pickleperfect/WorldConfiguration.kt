@@ -1,5 +1,7 @@
 package net.mostlyoriginal.pickleperfect
 
+import net.mostlyoriginal.pickleperfect.common.ProcessingStrategy
+import net.mostlyoriginal.pickleperfect.internal.DefaultProcessingStrategy
 import kotlin.reflect.KClass
 
 /**
@@ -9,6 +11,11 @@ class WorldConfiguration {
     val systems = mutableListOf<System>()
     val componentTypes = mutableListOf<ComponentType<*>>()
     var entityProducer = ::Entity
+    var processingStrategy: ProcessingStrategy = DefaultProcessingStrategy()
+
+    fun with(strategy: ProcessingStrategy) {
+        this.processingStrategy = strategy
+    }
 
     fun with(system: System): WorldConfiguration {
         systems.add(system)
@@ -21,4 +28,6 @@ class WorldConfiguration {
     }
 
     data class ComponentType<T : Component>(val componentClass: KClass<T>, val newInstance: () -> T)
+
+
 }

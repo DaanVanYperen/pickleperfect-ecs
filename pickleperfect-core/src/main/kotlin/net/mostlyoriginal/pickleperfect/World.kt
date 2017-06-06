@@ -1,8 +1,10 @@
 package net.mostlyoriginal.pickleperfect
 
 import net.mostlyoriginal.pickleperfect.common.Bag
+import net.mostlyoriginal.pickleperfect.common.ProcessingStrategy
 import net.mostlyoriginal.pickleperfect.internal.Subscription
 import net.mostlyoriginal.pickleperfect.internal.SystemHarness
+import net.mostlyoriginal.pickleperfect.internal.WorldFacade
 import net.mostlyoriginal.pickleperfect.predicate.BitPredicate
 import net.mostlyoriginal.pickleperfect.service.*
 import kotlin.reflect.KClass
@@ -16,7 +18,6 @@ class World(config: WorldConfiguration) {
     val systems = Bag<SystemHarness>()
 
     val updateService = StateUpdateService()
-
     val componentService = ComponentService(componentMutationListener = updateService)
     val compositionStore = CompositionStore()
     val subscriptionStore = SubscriptionStore()
@@ -26,6 +27,9 @@ class World(config: WorldConfiguration) {
     val componentBitResolver = { p: KClass<out Component> -> componentService.bitIndexOf(p) }
 
     val patternStore = PatternStore(componentBitResolver, subscriptionProducer)
+
+    val processingStrategyWorldFacade = WorldFacade(this)
+    val processingStrategy: ProcessingStrategy = config.processingStrategy
 
 
     init {
@@ -41,16 +45,11 @@ class World(config: WorldConfiguration) {
     }
 
     fun process() {
-        flush()
-        systems.forEach {
-            it.process()
-            flush()
-        }
+        processingStrategy.process(processingStrategyWorldFacade)
     }
 
     /** Flush pending changes. */
     fun flush() {
-        updateService.update(compositionStore, subscriptionStore)
     }
 
 }
