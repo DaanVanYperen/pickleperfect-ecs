@@ -51,9 +51,4 @@ class World(config: WorldConfiguration) {
     fun process() {
         processingStrategy.process(processingStrategyWorldFacade)
     }
-
-    /** Flush pending changes. */
-    fun flush() {
-    }
-
 }
