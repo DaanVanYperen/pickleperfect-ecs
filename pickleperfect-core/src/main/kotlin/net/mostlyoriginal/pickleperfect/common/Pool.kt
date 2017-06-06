@@ -1,8 +1,5 @@
 package net.mostlyoriginal.pickleperfect.common
 
-import net.mostlyoriginal.pickleperfect.E
-import kotlin.reflect.KClass
-
 /**
  * @author Daan van Yperen
  */

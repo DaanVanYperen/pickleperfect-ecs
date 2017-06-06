@@ -1,29 +1,49 @@
 package net.mostlyoriginal.pickleperfect.common
 
-import kotlin.reflect.KClass
-
 /**
  * Track ordinal metadata for set of classes.
  *
  * @author Daan van Yperen
  */
-class OrdinalTypeStore {
-    var index = 0
-    var cache = HashMap<KClass<*>, OrdinalType>()
+class OrdinalTypeStore<T> {
+    private var highestId = -1
+    private val cache = HashMap<T, Int>()
+    private val lookup = Bag<T>()
 
-    class OrdinalType(val type: KClass<*>, val index: Int)
+    class OrdinalType<out T>(val type: T, val index: Int)
+
+    fun highestId() = highestId
+
+    fun getValue(id: Int): T {
+        return lookup[id] ?: throw RuntimeException("Ordinal type store does not contain " + id)
+    }
 
     /**
-     * @return
+     * Get ID for mutable subjects.
+     * @return unique ordinal ID for subject.
+     * @param subject subject to obtain ID for.
+     * @param cloneFunction Function to clone subject, whenever a new ID is created. Useful when dealing with mutable classes and you want to match on structural equality.
+     * @todo Ripple in the fabric. might want to do something with immutable indices?
      */
-    fun get(type: KClass<*>): OrdinalType {
-        val result = cache[type]
+    inline fun getOrCreate(subject: T, cloneFunction: (T) -> T): Int {
+        return getOrCreate(if (has(subject)) subject else cloneFunction(subject))
+    }
+
+    fun has(subject: T) = cache[subject] != null
+
+    /**
+     * Get ID for immutable subject or subject with referential equality.
+     * @return unique ordinal ID for subject.
+     * @param subject subject to obtain ID for. Consider if this needs to be immutable!
+     */
+    fun getOrCreate(subject: T): Int {
+        val result = cache[subject]
         if (result != null) {
             return result
         } else {
-            val newInstance = OrdinalType(type, index++)
-            cache[type] = newInstance
-            return newInstance
+            cache[subject] = ++highestId
+            lookup[highestId] = subject
+            return highestId
         }
     }
 }

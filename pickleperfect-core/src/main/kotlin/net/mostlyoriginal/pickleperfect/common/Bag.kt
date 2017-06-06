@@ -6,12 +6,12 @@ import kotlin.js.Math
  * @todo license or not?
  * @author Daan van Yperen
  */
-class Bag<T> (startingCapacity: Int = 1) {
+class Bag<T>(startingCapacity: Int = 64) {
     var items: Array<Any?> = kotlin.arrayOfNulls(startingCapacity)
     var size = 0
 
     fun add(value: T) {
-        if (items.size > size) {
+        if (items.size == size) {
             grow(items.size * 2)
         }
 
@@ -23,7 +23,7 @@ class Bag<T> (startingCapacity: Int = 1) {
             // @todo javascript specific dependencies.
             grow(Math.max(items.size * 2, index + 1))
         }
-        size = Math.max(items.size, index)
+        size = Math.max(size, index+1)
         items[index] = value
     }
 
@@ -31,11 +31,30 @@ class Bag<T> (startingCapacity: Int = 1) {
     // @todo null safe all the way, or better to force Has, T? or getOrSet passthrough?
     operator fun get(index: Int): T? = items[index] as T
 
+    fun getOrDefault(index: Int, default: T): T = (items[index] ?: default) as T
+
     @Suppress("UNCHECKED_CAST")
-    fun getOrPut(index: Int, value: T): T = items[index] as T ?: value
+    inline fun <T : Any> getOrPut(index: Int, value: () -> T): T {
+        var result = items[index] as T?
+        if (result == null) {
+            result = value()
+            items[index] = result
+            return result
+        }
+        return result
+    }
 
     fun grow(newSize: Int) {
         items = items.copyOf(newSize)
+    }
+
+    inline fun forEach(function: (T) -> Unit) {
+        for (i in 0..size - 1) {
+            if (items[i] != null) {
+                @Suppress("UNCHECKED_CAST")
+                function(items[i] as T)
+            }
+        }
     }
 
     fun notEmpty(): Boolean = size != 0
@@ -51,5 +70,7 @@ class Bag<T> (startingCapacity: Int = 1) {
         return value
     }
 
-    fun capacity() : Int = items.size
+    fun capacity(): Int = items.size
 }
+
+typealias EntityIdBag = Bag<Int>

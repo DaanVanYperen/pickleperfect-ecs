@@ -4,15 +4,22 @@ import net.mostlyoriginal.pickleperfect.Component
 import net.mostlyoriginal.pickleperfect.TestComponent1
 import net.mostlyoriginal.pickleperfect.TestComponent2
 import org.junit.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 /**
  * @author Daan van Yperen
  */
 class BagTest {
+
+    @Test
+    fun When_starting_capacity_set_Should_still_add_at_the_start() {
+        val bag = Bag<Component>(startingCapacity = 64)
+        bag.add(TestComponent1())
+        bag.add(TestComponent2())
+        assertNotNull(bag[0])
+        assertNotNull(bag[1])
+        assertNull(bag[2])
+    }
 
     @Test
     fun When_getting_missing_value_Should_return_null() {
@@ -42,5 +49,13 @@ class BagTest {
 
         assertEquals(bag[0], c1)
         assertEquals(bag[1], c2)
+    }
+
+    @Test
+    fun When_getOrPutExistingValue_Then_return_existing_value() {
+        val bag = Bag<Bits>()
+        val a = bag.getOrPut(1, { Bits() })
+        val b = bag.getOrPut(1, { Bits() })
+        assertTrue(a === b)
     }
 }

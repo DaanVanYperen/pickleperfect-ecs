@@ -48,13 +48,17 @@
                     </execution>
 
                     <execution>
-                        <id>test-compile</id>
+                        <id>test-compile-js</id>
                         <phase>test-compile</phase>
                         <goals>
                             <goal>test-js</goal>
                         </goals>
                     </execution>
                 </executions>
+
+                <configuration>
+                    <sourceMap>true</sourceMap>
+                </configuration>
             </plugin>
 
             <plugin>
@@ -72,7 +76,12 @@
                                 <artifactItem>
                                     <groupId>org.jetbrains.kotlin</groupId>
                                     <artifactId>kotlin-stdlib-js</artifactId>
-                                    <version>${kotlin.version}</version>
+                                    <outputDirectory>${project.build.directory}/js/lib</outputDirectory>
+                                    <includes>*.js</includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.jetbrains.kotlin</groupId>
+                                    <artifactId>kotlin-test-js</artifactId>
                                     <outputDirectory>${project.build.directory}/js/lib</outputDirectory>
                                     <includes>*.js</includes>
                                 </artifactItem>
