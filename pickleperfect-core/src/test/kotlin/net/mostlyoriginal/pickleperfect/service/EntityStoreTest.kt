@@ -35,7 +35,7 @@ class EntityStoreTest {
     fun When_active_Then_Should_read_as_active() {
         val store = defaultStore()
         store.create(entityId)
-        assertTrue(store.isActive(entityId))
+        assertTrue(store.has(entityId))
     }
 
     @Test
@@ -43,33 +43,6 @@ class EntityStoreTest {
         val store = defaultStore()
         store.create(entityId)
         store.remove(entityId)
-        assertFalse(store.isActive(entityId))
-    }
-
-    @Test
-    fun When_creating_after_deleting_entities_Should_recycle_ids() {
-        val store = defaultStore()
-        store.create(entityId)
-        store.remove(entityId)
-        assertEquals(entityId, store.create().id)
-    }
-
-    @Test
-    fun When_recreating_by_id_Should_reclaim_old_instance() {
-        val store = defaultStore()
-        val instanceA = store.create(entityId)
-        store.remove(entityId)
-        assertEquals(instanceA, store.create(entityId))
-    }
-
-    @Test
-    fun When_recycling_ids_Should_properly_cleanup_limbo() {
-        val store = defaultStore()
-        val instanceA = store.create(entityId)
-        store.remove(entityId)
-        val reclaimed = store.create()
-        assertEquals(instanceA, reclaimed)
-        assertTrue(store.isActive(reclaimed.id))
-        assertNotEquals(instanceA, store.create())
+        assertFalse(store.has(entityId))
     }
 }

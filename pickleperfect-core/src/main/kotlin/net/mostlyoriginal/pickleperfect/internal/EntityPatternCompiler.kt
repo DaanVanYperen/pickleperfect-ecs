@@ -10,11 +10,16 @@ import kotlin.reflect.KClass
  * Compiles EntityPattern to predicate.
  * @author Daan van Yperen
  */
-class EntityPatternCompiler(val componentBitLookup: (KClass<out Component>) -> Int) {
+internal class EntityPatternCompiler(val componentBitLookup: (KClass<out Component>) -> Int, val defaultPredicate: (() -> BitPredicate)? = null) {
 
     /** Convert pattern into BitPredicate. */
     fun compile(pattern: EntityPattern): BitPredicate {
         val list = ArrayList<BitPredicate>(3)
+
+        // append a default predicate, for Framework components.
+        if (defaultPredicate != null) {
+            list.add(defaultPredicate.invoke())
+        }
 
         if (pattern.all.isNotEmpty()) {
             list.add(ContainsAllBitPredicate(toBits(pattern.all)))

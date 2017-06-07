@@ -2,20 +2,17 @@ package net.mostlyoriginal.pickleperfect.service
 
 import net.mostlyoriginal.pickleperfect.Entity
 import net.mostlyoriginal.pickleperfect.common.Bag
-import net.mostlyoriginal.pickleperfect.common.Bits
 
 /**
- * Entity store.
+ * Simple store for entities.
  *
- * Entity references are not pooled since they are kept around forever.
+ * Entity instances are kept around forever for recycling.
  *
- * @todo removeFromWorld.
+ * @see EntityService
  * @author Daan van Yperen
  */
-class EntityStore<out T : Entity>(val producer: (Int) -> T) {
+internal class EntityStore<out T : Entity>(val producer: (Int) -> T) {
     private val items = Bag<T>()
-    private val limbo = Bag<Int>()
-    private val active = Bits()
 
     private var highestId = 0
 
@@ -23,46 +20,30 @@ class EntityStore<out T : Entity>(val producer: (Int) -> T) {
     fun create(entityId: Int): T {
         val result: T? = items[entityId]
         if (result != null) {
-            if (!active[entityId]) reactivate(entityId)
             return result
         } else {
             val newInstance: T = producer(entityId)
             items[entityId] = newInstance
-            reactivate(entityId)
+            if (highestId < entityId) {
+                highestId = entityId
+            }
             return newInstance
         }
     }
 
-    /**
-     * @return Create existing or new entity.
-     */
+    /** Create new entity with sequential ID. Do not call if you have stuff to recycle! */
     fun create(): T {
-        return create(if (limbo.empty()) ++highestId else limbo.pop())
+        return create(++highestId)
     }
 
+    /** Remove entity. Not the same as deletion! */
     fun remove(entityId: Int) {
-        if (active[entityId]) {
-            active[entityId] = false
-            limbo.push(entityId)
-        }
+        items[entityId] = null
     }
 
-    private fun reactivate(entityId: Int) {
-        active[entityId] = true
-        if (entityId > highestId) {
-            highestId = entityId
-        }
-    }
-
-    /** @return {@code true} if entity has been created and is alive. */
-    fun isActive(entityId: Int) = active[entityId]
+    /** @return {@code true} if entity has been created. */
+    fun has(entityId: Int) = items[entityId] != null
 
     /** @return existing or new instance of entityId. */
     fun get(entityId: Int): T = create(entityId)
-
-    fun forEach(function: (T) -> Unit) {
-        active.forTrue {
-            function(items[it]!!)
-        }
-    }
 }

@@ -7,6 +7,7 @@ import net.mostlyoriginal.pickleperfect.common.OrdinalTypeStore
 import net.mostlyoriginal.pickleperfect.internal.EntityPatternCompiler
 import net.mostlyoriginal.pickleperfect.internal.Subscription
 import net.mostlyoriginal.pickleperfect.predicate.BitPredicate
+import net.mostlyoriginal.pickleperfect.predicate.DeletedPredicate
 import kotlin.reflect.KClass
 
 /**
@@ -22,7 +23,7 @@ class PatternStore(
     private val patternIdentities = OrdinalTypeStore<EntityPattern.Identity>()
     private val compiledEntityPatternByIdentity = Bag<Subscription>()
     private val compiledEntityPatternByComposition = Bag<Subscription>()
-    private val compiler = EntityPatternCompiler(componentBitLookup)
+    private val compiler = EntityPatternCompiler(componentBitLookup, { DeletedPredicate(false) })
 
     /** @return subscription for pattern. Cached by pattern identity. */
     fun getSubscription(pattern: EntityPattern): Subscription {

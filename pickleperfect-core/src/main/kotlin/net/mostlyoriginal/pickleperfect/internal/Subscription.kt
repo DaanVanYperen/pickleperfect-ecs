@@ -8,16 +8,24 @@ import net.mostlyoriginal.pickleperfect.predicate.BitPredicate
  *
  * @author Daan van Yperen
  */
-class Subscription(val predicate: BitPredicate) {
+open class Subscription(val predicate: BitPredicate) {
 
     private val desiredCompositions = Bits()
 
     val entities = Bits()
+    var entityCount = 0
+
+    /** @return {@code true} if no entities in subscription. */
+    fun isEmpty(): Boolean = entityCount == 0
+
+    /** @return {@code true} if at least one entity in subscription. */
+    fun isNotEmpty(): Boolean = entityCount != 0
 
     /** Add entity to subscription. Does nothing when already added. */
-    fun add(entityId: Int) {
+    open fun add(entityId: Int) {
         if (!entities[entityId]) {
             entities[entityId] = true
+            entityCount++
         }
     }
 
@@ -25,6 +33,7 @@ class Subscription(val predicate: BitPredicate) {
     fun remove(entityId: Int) {
         if (entities[entityId]) {
             entities[entityId] = false
+            entityCount--
         }
     }
 

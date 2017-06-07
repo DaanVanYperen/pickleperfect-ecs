@@ -1,10 +1,11 @@
 package net.mostlyoriginal.pickleperfect.service
 
-import net.mostlyoriginal.pickleperfect.Entity
 import net.mostlyoriginal.pickleperfect.common.Bag
 import net.mostlyoriginal.pickleperfect.common.Bits
+import net.mostlyoriginal.pickleperfect.internal.LimboSubscription
 import net.mostlyoriginal.pickleperfect.internal.Subscription
 import net.mostlyoriginal.pickleperfect.predicate.EverythingPredicate
+import net.mostlyoriginal.pickleperfect.predicate.DeletedPredicate
 
 /**
  * Stores all existing compositions.
@@ -16,21 +17,27 @@ class SubscriptionStore {
 
     companion object {
         private const val CATCH_ALL_SUBSCRIPTION_INDEX: Int = 0
+        private const val LIMBO_SUBSCRIPTION_INDEX: Int = 1
     }
 
     init {
         subscriptions[CATCH_ALL_SUBSCRIPTION_INDEX] = Subscription(EverythingPredicate()) // default subscription.
+        subscriptions[LIMBO_SUBSCRIPTION_INDEX] = LimboSubscription(DeletedPredicate(true))
+    }
+
+    internal fun getLimboSubscription(): LimboSubscription {
+        return subscriptions[LIMBO_SUBSCRIPTION_INDEX]!! as LimboSubscription
     }
 
     fun add(subscription: Subscription, compositions: CompositionStore): Subscription {
         subscriptions.add(subscription)
 
-        // register compositions
+        // register compositions with subscription.
         compositions.forEach { compositionId, composition ->
             subscription.registerComposition(compositionId, composition)
         }
 
-        // feed
+        // feed all entities to the new subscription.
         subscriptions[CATCH_ALL_SUBSCRIPTION_INDEX]!!.entities.forTrue {
             subscription.reconsiderMembershipFor(it, compositions.getCompositionId(it))
         }

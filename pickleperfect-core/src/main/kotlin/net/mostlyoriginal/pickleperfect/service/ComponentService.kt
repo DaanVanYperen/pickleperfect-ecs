@@ -46,9 +46,16 @@ class ComponentService
     /**
      * @return store for passed component type.
      */
+    fun getStore(bitIndex: Int): ComponentStore<*> {
+        return stores[bitIndex].orConfigurationError("Unknown component class, did you register it with ComponentService?")
+    }
+
+    /**
+     * @return store for passed component type.
+     */
     fun <T : Component> getStore(componentClass: KClass<T>): ComponentStore<T> {
         @Suppress("UNCHECKED_CAST")
-        return stores[bitIndexOf(componentClass)].orConfigurationError("Unknown component class, did you register it with ComponentService?") as ComponentStore<T>
+        return getStore(bitIndexOf(componentClass)) as ComponentStore<T>
     }
 
     /**

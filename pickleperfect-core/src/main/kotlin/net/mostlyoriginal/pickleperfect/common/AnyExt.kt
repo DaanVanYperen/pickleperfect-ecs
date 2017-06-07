@@ -2,6 +2,7 @@ package net.mostlyoriginal.pickleperfect.common
 
 
 class InvalidConfigurationException(message: String?) : RuntimeException(message)
+class AccessingRecycledEntityException(message: String?) : RuntimeException(message)
 
 /**
  * @author Daan van Yperen

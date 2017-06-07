@@ -37,6 +37,14 @@ class Bits(startingBitCapacity: Int = BIT_SIZE) {
             }
             return result
         }
+
+        fun of(vararg values: Int): Bits {
+            val result = Bits(values.size)
+            for (bit in values) {
+                result[bit] = true
+            }
+            return result
+        }
     }
 
     /**
