@@ -116,8 +116,11 @@ class Bits(startingBitCapacity: Int = BIT_SIZE) {
      * @param value bit state
      */
     fun unsafeSet(index: Int, value: Boolean) {
-        if (pristine) pristine = false
         val aIndex = index / BIT_SIZE
+        if (pristine ) {
+            if (!value) return // false on pristine bit array does nothing! abort.
+            pristine = false
+        }
         val localBit = index % BIT_SIZE
         bits[aIndex] =
                 if (value)
@@ -178,6 +181,10 @@ class Bits(startingBitCapacity: Int = BIT_SIZE) {
      * Access array backing this bit array. Read only use only!
      */
     fun rawBits(): IntArray = bits
+
+    override fun toString(): String {
+        return bits.toString()
+    }
 
     /**
      * @param function to call for each set bit.

@@ -1,12 +1,19 @@
 package net.mostlyoriginal.pickleperfect.service
 
 import net.mostlyoriginal.pickleperfect.IgnoreComponentMutationListener
+import net.mostlyoriginal.pickleperfect.TestComponent1
+import net.mostlyoriginal.pickleperfect.World
+import net.mostlyoriginal.pickleperfect.WorldConfiguration
 import net.mostlyoriginal.pickleperfect.common.Bits
+import net.mostlyoriginal.pickleperfect.common.EntityPattern
 import net.mostlyoriginal.pickleperfect.internal.Subscription
+import net.mostlyoriginal.pickleperfect.internal.SubscriptionListener
+import net.mostlyoriginal.pickleperfect.internal.WorldFacade
 import net.mostlyoriginal.pickleperfect.predicate.ContainsAnyBitPredicate
 import net.mostlyoriginal.pickleperfect.service.common.ComponentMutationListener
 import org.junit.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import kotlin.test.fail
 
@@ -38,14 +45,59 @@ class StateUpdateServiceTest {
 
     /** Entities that are to be purged should retain o */
 
+    val pattern = EntityPattern().all(TestComponent1::class)
+
     @Test
     fun When_entity_is_purged_Should_retain_component_state_for_listeners() {
-        fail("NOT IMPLEMENTED")
+        val facade = WorldFacade(World(WorldConfiguration().with(TestComponent1::class, ::TestComponent1)))
+        val mComponent1 = facade.createMapper(TestComponent1::class)
+        var called = 0
+
+        val entity = facade.create()
+        val entityId = entity.id
+
+        class Listener : SubscriptionListener {
+            override fun removed(entities: Bits) {
+                assertTrue(mComponent1.has(entityId)) // state remains! yippy.
+                called++
+            }
+
+            override fun added(entities: Bits) {
+            }
+
+        }
+
+        val subscription = facade.getSubscription(pattern)
+        subscription.register(Listener())
+
+        mComponent1.create(entityId)
+
+        facade.flush() // otherwise will never be signed up.
+        facade.delete(entityId)
+        facade.flush()
+
+        assertEquals(1,called)
     }
 
     @Test
     fun When_entity_is_purged_Should_unsub_from_all_subscriptions() {
-        fail("NOT IMPLEMENTED")
+        val facade = WorldFacade(World(WorldConfiguration().with(TestComponent1::class, ::TestComponent1)))
+        val mComponent1 = facade.createMapper(TestComponent1::class)
+        var called = 0
+
+        val entity = facade.create()
+        val entityId = entity.id
+
+        val subscription = facade.getSubscription(pattern)
+
+        mComponent1.create(entityId)
+
+        facade.flush() // otherwise will never be signed up.
+        facade.delete(entityId)
+        facade.flush()
+
+        assertEquals(0,subscription.entityCount)
+        assertFalse(subscription.has(entityId))
     }
 
     @Test

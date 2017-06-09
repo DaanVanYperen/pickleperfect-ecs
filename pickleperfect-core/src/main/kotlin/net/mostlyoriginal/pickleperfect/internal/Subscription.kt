@@ -1,5 +1,6 @@
 package net.mostlyoriginal.pickleperfect.internal
 
+import net.mostlyoriginal.pickleperfect.common.Bag
 import net.mostlyoriginal.pickleperfect.common.Bits
 import net.mostlyoriginal.pickleperfect.predicate.BitPredicate
 
@@ -11,9 +12,13 @@ import net.mostlyoriginal.pickleperfect.predicate.BitPredicate
 open class Subscription(val predicate: BitPredicate) {
 
     private val desiredCompositions = Bits()
+    private val listeners = Bag<SubscriptionListener>()
 
     val entities = Bits()
     var entityCount = 0
+
+    val addedEntities = Bits()
+    val removedEntities = Bits()
 
     /** @return {@code true} if no entities in subscription. */
     fun isEmpty(): Boolean = entityCount == 0
@@ -21,11 +26,32 @@ open class Subscription(val predicate: BitPredicate) {
     /** @return {@code true} if at least one entity in subscription. */
     fun isNotEmpty(): Boolean = entityCount != 0
 
+
+    fun register(listener: SubscriptionListener) {
+        listeners.add(listener)
+    }
+
     /** Add entity to subscription. Does nothing when already added. */
     open fun add(entityId: Int) {
         if (!entities[entityId]) {
             entities[entityId] = true
             entityCount++
+
+            addedEntities[entityId] = true
+            removedEntities[entityId] = false
+        }
+    }
+
+    /** Inform listeners of subscription delta. Resets delta in the process. */
+    fun invokeListeners() {
+        if (!addedEntities.pristine) {
+            listeners.forEach { it.added(addedEntities) }
+            addedEntities.clear()
+        }
+
+        if (!removedEntities.pristine) {
+            listeners.forEach { it.removed(removedEntities) }
+            removedEntities.clear()
         }
     }
 
@@ -34,6 +60,9 @@ open class Subscription(val predicate: BitPredicate) {
         if (entities[entityId]) {
             entities[entityId] = false
             entityCount--
+
+            addedEntities[entityId] = false
+            removedEntities[entityId] = true
         }
     }
 
@@ -79,3 +108,4 @@ open class Subscription(val predicate: BitPredicate) {
         }
     }
 }
+

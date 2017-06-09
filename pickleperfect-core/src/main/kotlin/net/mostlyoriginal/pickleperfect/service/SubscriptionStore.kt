@@ -59,4 +59,8 @@ class SubscriptionStore {
     fun reconsiderMembershipFor(entityId: Int, compositionId: Int) {
         subscriptions.forEach { it.reconsiderMembershipFor(entityId, compositionId) }
     }
+
+    fun invokeListeners() {
+        subscriptions.forEach { it.invokeListeners() }
+    }
 }

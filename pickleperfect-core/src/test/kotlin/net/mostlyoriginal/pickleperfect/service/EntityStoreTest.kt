@@ -25,7 +25,7 @@ class EntityStoreTest {
         assertEquals(store.create(entityId), store.create(entityId))
     }
 
-    private fun defaultStore(): EntityStore<Entity> {
+    internal fun defaultStore(): EntityStore<Entity> {
         val world = World(WorldConfiguration())
         val store = EntityStore({ id -> Entity(world, id) })
         return store

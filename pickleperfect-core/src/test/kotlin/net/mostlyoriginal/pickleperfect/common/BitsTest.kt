@@ -98,6 +98,13 @@ class BitsTest {
     }
 
     @Test
+    fun When_setting_pristine_bitset_to_false_Should_remain_pristine() {
+        val bits = Bits()
+        bits[0] = false
+        assertTrue(bits.pristine)
+    }
+
+    @Test
     fun When_cleared_Should_become_pristine() {
         val bits = Bits.of(true)
         bits.clear()

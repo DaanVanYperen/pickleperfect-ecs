@@ -15,7 +15,7 @@ import kotlin.test.assertTrue
  */
 class EntityPatternCompilerTest {
 
-    val compiler = EntityPatternCompiler(::testComponentBitLookup)
+    internal val compiler = EntityPatternCompiler(::testComponentBitLookup)
 
     @Test
     fun Should_support_all_matches() {

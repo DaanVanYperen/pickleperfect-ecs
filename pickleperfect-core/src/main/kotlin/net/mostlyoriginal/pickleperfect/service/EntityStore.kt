@@ -11,7 +11,7 @@ import net.mostlyoriginal.pickleperfect.common.Bag
  * @see EntityService
  * @author Daan van Yperen
  */
-internal class EntityStore<out T : Entity>(val producer: (Int) -> T) {
+class EntityStore<out T : Entity>(val producer: (Int) -> T) {
     private val items = Bag<T>()
 
     private var highestId = 0

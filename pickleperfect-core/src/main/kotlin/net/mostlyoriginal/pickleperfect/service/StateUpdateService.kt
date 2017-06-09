@@ -9,7 +9,7 @@ import net.mostlyoriginal.pickleperfect.service.common.ComponentMutationListener
  * Handles overarching state related concerns.
  *
  * @see update for an overview.
- * @todo perhaps this belongs in CompositionStore?
+ * @todo Can we break this up a bit?
  * @author Daan van Yperen
  */
 class StateUpdateService : ComponentMutationListener {
@@ -64,9 +64,8 @@ class StateUpdateService : ComponentMutationListener {
     }
 
     private fun informListenersOfSubscriptionChanges(subscriptionStore:SubscriptionStore) {
-
         // not implemented yet.
-        //subscriptionStore.callListenersWithChanges()
+        subscriptionStore.invokeListeners()
     }
 
     /**
