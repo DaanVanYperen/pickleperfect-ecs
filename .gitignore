@@ -38,3 +38,8 @@ target/
 .factorypath
 .idea/
 *.jar
+
+/pickleperfect-ecs-js/src/test/karma/node
+/pickleperfect-ecs-js/src/test/karma/node_modules
+/pickleperfect-game-example/pickleperfect-game-js/node
+/pickleperfect-game-example/pickleperfect-game-js/node_modules
