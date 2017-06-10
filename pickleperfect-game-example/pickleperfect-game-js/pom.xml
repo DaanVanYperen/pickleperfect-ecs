@@ -142,7 +142,6 @@
 
                 <configuration>
                     <nodeVersion>${node.version}</nodeVersion>
-                    <npmVersion>${npm.version}</npmVersion>
                     <workingDirectory>${project.build.directory}/node</workingDirectory>
                 </configuration>
             </plugin>

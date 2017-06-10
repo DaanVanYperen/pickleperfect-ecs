@@ -189,7 +189,6 @@
 
                 <configuration>
                     <nodeVersion>${node.version}</nodeVersion>
-                    <npmVersion>${npm.version}</npmVersion>
                     <workingDirectory>${project.build.directory}/karma</workingDirectory>
                 </configuration>
             </plugin>
