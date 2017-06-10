@@ -1,2 +1,5 @@
+[![Build Status](https://travis-ci.org/DaanVanYperen/pickleperfect-ecs.svg?branch=master)](https://travis-ci.org/DaanVanYperen/pickleperfect-ecs)
+
 # pickleperfect-ecs
-ECS for Kotlin, plus a little game framework, focus on HTML target.
+
+Kotlin ECS plus little game framework, targets JS/HTML5 and JRE8 targets.
