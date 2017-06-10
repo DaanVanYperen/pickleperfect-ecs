@@ -18,6 +18,11 @@
             <artifactId>pickleperfect-ecs-shared</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>net.mostlyoriginal.pickleperfect</groupId>
+            <artifactId>pickleperfect-jam-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 

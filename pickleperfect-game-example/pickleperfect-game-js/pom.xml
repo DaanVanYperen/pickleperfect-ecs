@@ -28,6 +28,11 @@
             <artifactId>pickleperfect-game-shared</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>net.mostlyoriginal.pickleperfect</groupId>
+            <artifactId>pickleperfect-jam-backend-pixi-js</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
 
