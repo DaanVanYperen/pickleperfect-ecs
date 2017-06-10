@@ -16,7 +16,10 @@
     </properties>
 
     <modules>
-        <module>pickleperfect-core</module>
+        <module>pickleperfect-jam-api</module>
+        <module>pickleperfect-jam-backend-pixi-js</module>
+        <module>pickleperfect-ecs</module>
+        <module>pickleperfect-ecs-benchmark</module>
     </modules>
 
     <dependencyManagement>
