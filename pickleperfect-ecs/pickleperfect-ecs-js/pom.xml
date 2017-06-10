@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>net.mostlyoriginal.pickleperfect</groupId>
-        <artifactId>pickleperfect-parent</artifactId>
+        <artifactId>pickleperfect-ecs</artifactId>
         <version>0.1-SNAPSHOT</version>
     </parent>
 
@@ -119,6 +119,30 @@
                 </executions>
             </plugin>
 
+            <!-- Don't mess up main folders with node stuff, work from within target -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>generate-test-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/karma</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/test/karma</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>com.github.eirslett</groupId>
                 <artifactId>frontend-maven-plugin</artifactId>
@@ -156,7 +180,7 @@
                             <goal>karma</goal>
                         </goals>
                         <configuration>
-                            <karmaConfPath>${project.basedir}/src/test/karma/karma.conf.js</karmaConfPath>
+                            <karmaConfPath>${project.build.directory}/karma/karma.conf.js</karmaConfPath>
                             <skip>${maven.test.skip}</skip>
                             <skipTests>${maven.test.skip}</skipTests>
                         </configuration>
@@ -164,9 +188,9 @@
                 </executions>
 
                 <configuration>
-                    <nodeVersion>v0.12.17</nodeVersion>
-                    <npmVersion>3.10.9</npmVersion>
-                    <workingDirectory>${project.basedir}/src/test/karma</workingDirectory>
+                    <nodeVersion>${node.version}</nodeVersion>
+                    <npmVersion>${npm.version}</npmVersion>
+                    <workingDirectory>${project.build.directory}/karma</workingDirectory>
                 </configuration>
             </plugin>
         </plugins>

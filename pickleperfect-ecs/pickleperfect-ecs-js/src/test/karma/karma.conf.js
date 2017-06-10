@@ -18,9 +18,9 @@ module.exports = function (config) {
             frameworks: ['qunit'],
             reporters: ['progress', 'junit'],
             files: [
-                '../../../target/test-js/kotlin.js',
-                '../../../target/js/*.js',
-                '../../../target/test-js/*.js'
+                '../test-js/kotlin.js',
+                '../js/*.js',
+                '../test-js/*.js'
             ],
             exclude: [],
             port: 9876,
@@ -36,7 +36,7 @@ module.exports = function (config) {
             reportSlowerThan: 500,
 
             junitReporter: {
-                outputFile: '../../../target/reports/test-results.xml',
+                outputFile: '../reports/test-results.xml',
                 suite: ''
             },
             preprocessors: {

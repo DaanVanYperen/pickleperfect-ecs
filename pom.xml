@@ -14,16 +14,16 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <kotlin.version>1.1.2-4</kotlin.version>
         <junit.version>4.12</junit.version>
+
+        <node.version>0.12.17</node.version>
+        <npm.version>3.10.9</npm.version>
+
         <maven.test.skip>false</maven.test.skip>
     </properties>
 
     <modules>
-        <!--<module>pickleperfect-jam-api</module>-->
-        <!--<module>pickleperfect-jam-backend-pixi-js</module>-->
-        <module>pickleperfect-ecs-shared</module>
-        <module>pickleperfect-ecs-js</module>
-        <module>pickleperfect-ecs-jre8</module>
-
+        <module>pickleperfect-ecs</module>
+        <module>pickleperfect-jam</module>
         <module>pickleperfect-game-example</module>
     </modules>
 

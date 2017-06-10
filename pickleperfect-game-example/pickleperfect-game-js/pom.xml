@@ -82,6 +82,28 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/node</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/node</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
             <plugin>
                 <groupId>com.github.eirslett</groupId>
@@ -119,9 +141,9 @@
                 </executions>
 
                 <configuration>
-                    <nodeVersion>v0.12.17</nodeVersion>
-                    <npmVersion>3.10.9</npmVersion>
-                    <workingDirectory>${project.basedir}</workingDirectory>
+                    <nodeVersion>${node.version}</nodeVersion>
+                    <npmVersion>${npm.version}</npmVersion>
+                    <workingDirectory>${project.build.directory}/node</workingDirectory>
                 </configuration>
             </plugin>
 

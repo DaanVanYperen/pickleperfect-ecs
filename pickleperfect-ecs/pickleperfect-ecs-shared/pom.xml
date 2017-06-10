@@ -6,7 +6,7 @@
 
     <parent>
         <groupId>net.mostlyoriginal.pickleperfect</groupId>
-        <artifactId>pickleperfect-parent</artifactId>
+        <artifactId>pickleperfect-ecs</artifactId>
         <version>0.1-SNAPSHOT</version>
     </parent>
 
