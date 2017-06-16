@@ -13,38 +13,48 @@ dependencies {
     //compile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
 }
 
-//kotlinFrontend {
-//
-//    // Install scoop package manager, run scoop install nodejs-lts (npm v6! later versions don't work well with frontend plugin 0.0.19)
-//    npm {
-//        dependency("kotlin", "file:./node_modules/kotlin")
-//        devDependency("karma")
-//    }
-//
-//    sourceMaps = true
-//
-//    webpackBundle {
-//        bundleName = "game"
-//    }
-//}
-//
-//sourceSets {
-//    test.kotlin.srcDirs += "src/test/kotlin"
-//    test.kotlin.srcDirs += "../pickleperfect-game-shared/src/test/kotlin"
-//}
-//
-//compileKotlin2Js {
-//    kotlinOptions.metaInfo = true
-//    kotlinOptions.outputFile = "$project.buildDir.path/js/${project.name}.js"
-//    kotlinOptions.sourceMap = true
-//    kotlinOptions.moduleKind = 'commonjs'
-//    kotlinOptions.main = "call"
-//}
-//
-//compileTestKotlin2Js {
-//    kotlinOptions.metaInfo = true
-//    kotlinOptions.outputFile = "$project.buildDir.path/js-tests/${project.name}-tests.js"
-//    kotlinOptions.sourceMap = true
-//    kotlinOptions.moduleKind = 'commonjs'
-//    kotlinOptions.main = "call"
-//}
+compileKotlin2Js {
+    kotlinOptions.metaInfo = true
+    kotlinOptions.outputFile = "$project.buildDir.path/js/${project.name}.js"
+    kotlinOptions.sourceMap = true
+    kotlinOptions.moduleKind = 'commonjs'
+    kotlinOptions.main = "call"
+}
+
+
+
+build.doLast() {
+    // Copy kotlin.js and kotlin-meta.js from jar into web directory
+    configurations.compile.each { File file ->
+        copy {
+            includeEmptyDirs = false
+
+            from zipTree(file.absolutePath)
+            into "build/js/lib"
+            include { fileTreeElement ->
+                def path = fileTreeElement.path
+                path.endsWith(".js") && (path.startsWith("META-INF/resources/") || !path.startsWith("META-INF/"))
+            }
+        }
+    }
+
+    // Copy scripts to web directory
+    copy {
+        includeEmptyDirs = false
+        from new File("build/classes/main")
+        into "build/js/lib"
+    }
+
+    copy {
+        includeEmptyDirs = false
+        from new File("build/classes/test")
+        into "build/js/lib"
+    }
+
+    copy {
+        includeEmptyDirs = false
+        from new File("build/resources/test")
+        into "build/js"
+    }
+
+}
