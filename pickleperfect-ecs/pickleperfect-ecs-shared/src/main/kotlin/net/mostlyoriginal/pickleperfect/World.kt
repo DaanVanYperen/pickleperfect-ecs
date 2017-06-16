@@ -16,6 +16,7 @@ import kotlin.reflect.KClass
 class World(config: WorldConfiguration) {
 
     val systems = Bag<SystemHarness>()
+    var delta: Float = 0F
 
     /** Services */
 
@@ -58,4 +59,5 @@ class World(config: WorldConfiguration) {
     fun process() {
         processingStrategy.process(processingStrategyWorldFacade)
     }
+
 }

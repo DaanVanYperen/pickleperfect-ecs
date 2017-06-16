@@ -1,0 +1,9 @@
+apply plugin: 'kotlin-platform-jvm'
+
+dependencies {
+    implement project(":pickleperfect-ecs:pickleperfect-ecs-shared")
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testCompile "junit:junit:$junit_version"
+}

@@ -1,12 +1,13 @@
 module.exports = function(grunt) {
     grunt.initConfig({
         uglify: {
+            report: 'gzip',
             core: {
                 files: [{
                     expand: true,
-                    cwd: 'target/js',
+                    cwd: '../js',
                     src: '**/*.js',
-                    dest: "target/min-js",
+                    dest: "../min-js",
                     ext: '.min.js'
                 }]
             }

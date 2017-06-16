@@ -1,0 +1,47 @@
+apply plugin: 'kotlin-platform-js'
+//apply plugin: 'org.jetbrains.kotlin.frontend'
+
+dependencies {
+    implement project(":pickleperfect-jam:pickleperfect-jam-api")
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-js:$kotlin_version"
+
+//    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+//    compile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
+}
+
+//kotlinFrontend {
+//
+//    // Install scoop package manager, run scoop install nodejs-lts (npm v6! later versions don't work well with frontend plugin 0.0.19)
+//    npm {
+//        dependency("kotlin", "file:./node_modules/kotlin")
+//        devDependency("karma")
+//    }
+//
+//    sourceMaps = true
+//
+//    webpackBundle {
+//        bundleName = "jam"
+//    }
+//}
+//
+//sourceSets {
+//    test.kotlin.srcDirs += "src/test/kotlin"
+//    test.kotlin.srcDirs += "../pickleperfect-jam-api/src/test/kotlin"
+//}
+//
+//compileKotlin2Js {
+//    kotlinOptions.metaInfo = true
+//    kotlinOptions.outputFile = "$project.buildDir.path/js/${project.name}.js"
+//    kotlinOptions.sourceMap = true
+//    kotlinOptions.moduleKind = 'commonjs'
+//    kotlinOptions.main = "call"
+//}
+//
+//compileTestKotlin2Js {
+//    kotlinOptions.metaInfo = true
+//    kotlinOptions.outputFile = "$project.buildDir.path/js-tests/${project.name}-tests.js"
+//    kotlinOptions.sourceMap = true
+//    kotlinOptions.moduleKind = 'commonjs'
+//    kotlinOptions.main = "call"
+//}

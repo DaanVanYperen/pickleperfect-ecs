@@ -1,14 +1,11 @@
 package net.mostlyoriginal.game
 
-import net.mostlyoriginal.pickleperfect.System
-import net.mostlyoriginal.pickleperfect.World
-import net.mostlyoriginal.pickleperfect.WorldConfiguration
-import net.mostlyoriginal.pickleperfect.internal.WorldFacade
+import net.mostlyoriginal.pickleperfect.jam.api.LibGdxApplication
 
 /**
  * @author Daan van Yperen
  */
 
 fun main(args: Array<String>) {
-    Game().process()
+    LibGdxApplication(TestGame()).run()
 }

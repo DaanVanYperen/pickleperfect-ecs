@@ -1,0 +1,10 @@
+include ':pickleperfect-ecs:pickleperfect-ecs-shared'
+include ':pickleperfect-ecs:pickleperfect-ecs-jre8'
+include ':pickleperfect-ecs:pickleperfect-ecs-js'
+include ':pickleperfect-jam:pickleperfect-jam-api'
+include ':pickleperfect-jam:pickleperfect-jam-backend-libgdx'
+include ':pickleperfect-jam:pickleperfect-jam-backend-pixi-js'
+include ':pickleperfect-game-example:pickleperfect-game-shared'
+include ':pickleperfect-game-example:pickleperfect-game-jre8'
+include ':pickleperfect-game-example:pickleperfect-game-js'
+

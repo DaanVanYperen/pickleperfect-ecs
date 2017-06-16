@@ -1,0 +1,18 @@
+apply plugin: 'kotlin-platform-jvm'
+
+dependencies {
+    implement project(":pickleperfect-jam:pickleperfect-jam-api")
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+
+    compile "com.badlogicgames.gdx:gdx:$gdx_version"
+    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdx_version"
+
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testCompile "junit:junit:$junit_version"
+}
+
+sourceSets {
+    test.kotlin.srcDirs += "src/test/kotlin"
+    test.kotlin.srcDirs += "../pickleperfect-jam-api/src/test/kotlin"
+}

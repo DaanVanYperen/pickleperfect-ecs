@@ -1,0 +1,29 @@
+apply plugin: 'kotlin-platform-jvm'
+apply plugin: 'gradle-one-jar'
+apply plugin: 'application'
+
+dependencies {
+    implement project(":pickleperfect-game-example:pickleperfect-game-shared")
+
+    compile project(":pickleperfect-jam:pickleperfect-jam-backend-libgdx")
+    compile project(":pickleperfect-ecs:pickleperfect-ecs-jre8")
+
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+
+    compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdx_version"
+    compile "com.badlogicgames.gdx:gdx-platform:$gdx_version:natives-desktop"
+
+    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testCompile "junit:junit:$junit_version"
+}
+
+mainClassName = "net.mostlyoriginal.game.DesktopLauncherKt"
+
+sourceSets {
+    test.kotlin.srcDirs += "src/test/kotlin"
+    test.kotlin.srcDirs += "../pickleperfect-game-shared/src/test/kotlin"
+}
+
+task dist(type: OneJar) {
+    mainClass = mainClassName
+}
