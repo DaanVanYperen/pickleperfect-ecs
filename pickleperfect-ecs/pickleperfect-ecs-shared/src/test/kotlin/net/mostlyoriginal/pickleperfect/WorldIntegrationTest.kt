@@ -26,7 +26,7 @@ class WorldIntegrationTest {
             private var mTestComponent1: ComponentStore<TestComponent1>? = null
 
             override fun initialize(w: WorldFacade) {
-                mTestComponent1 = w.createMapper(TestComponent1::class)
+                mTestComponent1 = w.getMapper(TestComponent1::class)
                 val entity = w.create()
                 mTestComponent1?.create(entity.id)
             }
@@ -61,7 +61,7 @@ class WorldIntegrationTest {
             private var mTestComponent1: ComponentStore<TestComponent1>? = null
 
             override fun initialize(w: WorldFacade) {
-                mTestComponent1 = w.createMapper(TestComponent1::class)
+                mTestComponent1 = w.getMapper(TestComponent1::class)
                 val entity = w.create()
                 mTestComponent1?.create(entity.id)
             }

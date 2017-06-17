@@ -17,7 +17,7 @@ compileKotlin2Js {
     kotlinOptions.metaInfo = true
     kotlinOptions.outputFile = "$project.buildDir.path/js/${project.name}.js"
     kotlinOptions.sourceMap = true
-    kotlinOptions.moduleKind = 'commonjs'
+    kotlinOptions.moduleKind = "plain"
     kotlinOptions.main = "call"
 }
 

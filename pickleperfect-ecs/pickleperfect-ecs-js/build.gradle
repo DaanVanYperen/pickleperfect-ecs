@@ -8,3 +8,8 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
     testCompile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
 }
+
+compileKotlin2Js {
+    kotlinOptions.moduleKind = "plain"
+    kotlinOptions.sourceMap = true
+}

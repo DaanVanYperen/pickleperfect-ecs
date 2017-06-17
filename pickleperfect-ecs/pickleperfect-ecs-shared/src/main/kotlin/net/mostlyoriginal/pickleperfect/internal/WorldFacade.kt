@@ -85,8 +85,9 @@ class WorldFacade(
      * @deprecated Use discouraged, see below.
      * @todo we want to use fluid entities, this mapper mechanic is undesirable.
      */
-    fun <T : Component> createMapper(type: KClass<T>): ComponentStore<T> {
+    fun <T : Component> getMapper(type: KClass<T>): ComponentStore<T> {
         return world.componentService.getStore(type)
     }
 
+    fun delta() : Float = world.delta
 }

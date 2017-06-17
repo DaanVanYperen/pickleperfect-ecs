@@ -10,6 +10,11 @@ dependencies {
 //    compile "org.jetbrains.kotlin:kotlin-test-js:$kotlin_version"
 }
 
+compileKotlin2Js {
+    kotlinOptions.moduleKind = "plain"
+    kotlinOptions.sourceMap = true
+}
+
 //kotlinFrontend {
 //
 //    // Install scoop package manager, run scoop install nodejs-lts (npm v6! later versions don't work well with frontend plugin 0.0.19)

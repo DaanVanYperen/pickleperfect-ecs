@@ -15,6 +15,7 @@ external class Options {
 
 @JsName("PIXI")
 external object PIXI {
+
     @JsName("Application")
     class Application(
             options: Any? = definedExternally,
@@ -23,5 +24,37 @@ external object PIXI {
             arg4: Boolean? = definedExternally,
             arg5: Boolean? = definedExternally) {
         var view: Node = definedExternally
+        var stage: Container = definedExternally
+        var ticker : Ticker = definedExternally
+
+        class Ticker {
+            fun add(fn: (speed : Float) -> Unit): Unit = definedExternally
+        }
+
+        fun render(): Unit = definedExternally
     }
+
+    @JsName("Text")
+    class Text(text: Any? = definedExternally) : Sprite {
+    }
+
+    @JsName("Sprite")
+    open class Sprite : Container {
+        var x: Float = definedExternally
+        var y: Float = definedExternally
+        var width: Float = definedExternally
+        var height: Float = definedExternally
+
+        companion object {
+            fun fromImage(imageId: String): Sprite = definedExternally
+        }
+    }
+
+    @JsName("Container")
+    open class Container : DisplayObject {
+        fun addChild(child: DisplayObject): DisplayObject = definedExternally
+    }
+
+    @JsName("DisplayObject")
+    open class DisplayObject
 }

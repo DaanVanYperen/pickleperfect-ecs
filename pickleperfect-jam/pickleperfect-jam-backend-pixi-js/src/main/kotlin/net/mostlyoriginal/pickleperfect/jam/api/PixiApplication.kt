@@ -6,6 +6,15 @@ import kotlin.browser.document
  * @author Daan van Yperen
  */
 class PixiApplication(game: Game) : Application(game) {
+
+    companion object {
+        lateinit var app: PIXI.Application
+    }
+
+    fun process() {
+        game.process(0F)
+    }
+
     override fun initialize() {
 
         val options = Options()
@@ -14,14 +23,18 @@ class PixiApplication(game: Game) : Application(game) {
         options.width = 800
         options.height = 600
 
-        val application = PIXI.Application(
+        app = PIXI.Application(
                 options = options
         )
 
-        document.body!!.appendChild(application.view)
+        gfx = PixiGraphics()
 
-//        game.initialize()
-//        game.process(0F)
-//        game.dispose()
+        document.body!!.appendChild(app.view)
+
+        game.initialize()
+        app.ticker.add {
+            f -> game.process(60 / f) // f = 1.0 if 100%, 0.5 = 50% target FPS.
+            }
+        game.dispose()
     }
 }

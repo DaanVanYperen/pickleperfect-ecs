@@ -10,12 +10,10 @@ import net.mostlyoriginal.pickleperfect.internal.Subscription
 import net.mostlyoriginal.pickleperfect.internal.SubscriptionListener
 import net.mostlyoriginal.pickleperfect.internal.WorldFacade
 import net.mostlyoriginal.pickleperfect.predicate.ContainsAnyBitPredicate
-import net.mostlyoriginal.pickleperfect.service.common.ComponentMutationListener
 import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import kotlin.test.fail
 
 
 /**
@@ -50,7 +48,7 @@ class StateUpdateServiceTest {
     @Test
     fun When_entity_is_purged_Should_retain_component_state_for_listeners() {
         val facade = WorldFacade(World(WorldConfiguration().with(TestComponent1::class, ::TestComponent1)))
-        val mComponent1 = facade.createMapper(TestComponent1::class)
+        val mComponent1 = facade.getMapper(TestComponent1::class)
         var called = 0
 
         val entity = facade.create()
@@ -82,7 +80,7 @@ class StateUpdateServiceTest {
     @Test
     fun When_entity_is_purged_Should_unsub_from_all_subscriptions() {
         val facade = WorldFacade(World(WorldConfiguration().with(TestComponent1::class, ::TestComponent1)))
-        val mComponent1 = facade.createMapper(TestComponent1::class)
+        val mComponent1 = facade.getMapper(TestComponent1::class)
         var called = 0
 
         val entity = facade.create()

@@ -9,8 +9,7 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
  */
 class LibGdxApplication(game: Game) : Application(game) {
     override fun initialize() {
-        game.initialize()
-        LwjglApplication(GameAdapter(), createConfig())
+        LwjglApplication(GameAdapter(), createConfig()).executeRunnables()
     }
 
     private fun createConfig(): LwjglApplicationConfiguration {
@@ -46,10 +45,11 @@ class LibGdxApplication(game: Game) : Application(game) {
         }
     }
 
-    inner class GameAdapter : com.badlogic.gdx.Game() {
+    inner class GameAdapter() : com.badlogic.gdx.Game() {
         override fun create() {
             Application.gfx = LibGdxGraphics()
-            setScreen(ScreenAdapter())
+            game.initialize()
+            screen = ScreenAdapter()
         }
     }
 }

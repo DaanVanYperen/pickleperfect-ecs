@@ -2,6 +2,8 @@ apply plugin: 'kotlin-platform-jvm'
 apply plugin: 'gradle-one-jar'
 apply plugin: 'application'
 
+ext.assetsDir = "../pickleperfect-game-shared/assets/"
+
 dependencies {
     implement project(":pickleperfect-game-example:pickleperfect-game-shared")
 
@@ -20,8 +22,11 @@ dependencies {
 mainClassName = "net.mostlyoriginal.game.DesktopLauncherKt"
 
 sourceSets {
+
     test.kotlin.srcDirs += "src/test/kotlin"
     test.kotlin.srcDirs += "../pickleperfect-game-shared/src/test/kotlin"
+
+    main.resources.srcDirs += assetsDir
 }
 
 task dist(type: OneJar) {
