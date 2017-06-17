@@ -33,7 +33,7 @@ class PixiApplication(game: Game) : Application(game) {
 
         game.initialize()
         app.ticker.add {
-            f -> game.process(60 / f) // f = 1.0 if 100%, 0.5 = 50% target FPS.
+            f -> game.process((1f/60f) / f) // f = 1.0 if 100%, 0.5 = 50% target FPS.
             }
         game.dispose()
     }

@@ -19,7 +19,6 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.OrthographicCamera
 
 
-
 /**
  * @author Daan van Yperen
  */
@@ -61,6 +60,7 @@ class LibGdxRenderSystem : System, SubscriptionListener {
         entities.forTrue {
             val libGdxSprite = mLibGdxSprite.create(it)
             val region = TextureRegion(Texture(mSprite.get(it).name))
+            region.flip(false, true)
             libGdxSprite.actor = GdxActor(region)
             libGdxSprite.actor.width = region.regionWidth.toFloat()
             libGdxSprite.actor.height = region.regionHeight.toFloat()
@@ -85,7 +85,7 @@ class LibGdxRenderSystem : System, SubscriptionListener {
         w.getSubscription(pattern).register(this)
 
         stage = Stage()
-//        (stage.camera as OrthographicCamera)
+        (stage.camera as OrthographicCamera).setToOrtho(true)
     }
 
     override fun process(w: WorldFacade) {

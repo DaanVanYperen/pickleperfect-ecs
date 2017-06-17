@@ -62,7 +62,7 @@ class TestGame(val configure: (P: WorldConfiguration) -> Unit) : Game {
 
         override fun process(w: WorldFacade) {
             w.getSubscription(pattern).forEach {
-                mPos.get(it).x = (mPos.get(it).x + 1) % 500
+                mPos.get(it).x = (mPos.get(it).x + w.delta()*100f) % 500
             }
         }
     }
